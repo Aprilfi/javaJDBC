@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <style type="text/css">
+
+        /*表格设置*/
+
+        table{
+            line-height:60px;
+            height:250px;
+        }
+
+        /*表格内输入框设置开始*/
+
+        .style{font-size:13px;border:1px solid cornflowerblue;height:40px;width:300px;}
+        .style1{text-align:left;}
+
+        /*登录按钮设置*/
+
+        .style2{background-color:steelblue;border-style:none;border-radius:10px;width:300px;height:39px;color:white;}
+    </style>
+    <script src="bootstrap-3.3.7-dist/jquery_3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <form>
+        <table>
+            <tr>
+                <td class="style1"><a name="aa">登录</a></td>
+                <td><input id="name" type="text" name="username" class="style" required="required"
+                           placeholder="&nbsp;&nbsp;&nbsp;&nbsp;用户名/昵称"/></td>
+            </tr>
+            <tr>
+                <td class="style1">输入密码</td>
+                <td><input id="password" type="password" name="password" class="style" required="required"
+                           placeholder="&nbsp;&nbsp;&nbsp;&nbsp;密码"/></td>
+            </tr>
+
+            <!--登录按钮-->
+
+            <tr>
+                <td></td>
+                <td><input id="submit" type="button" class="style2" required="required" value="登录"/></td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        $("#submit").click(function(){
+            //获取表单数据
+            var name = $("#name").val();
+            var password = $("#password").val();
+            //声明输入框状态变量
+            var inputState = false;
+            if(name.length == 0){
+                alert("请填写昵称");
+            }else if(password.length == 0){
+                alert("请填写密码");
+            }else{
+                inputState = true;
+            }
+
+            if(inputState) {
+                $.post(
+                    "/LoginServlet?method=login",
+                    {nameArray: name, passwordArray: password},
+                    function (message) {
+
+                        if(message.indexOf("success") == 0){
+                            alert('登录成功');
+                            top.location.href = "goods_a.jsp?"+escape(name);
+                            $("#name").val('');
+                            $("#password").val('');
+                        }else{
+                            alert('密码与账号不匹配');
+                        }
+                    }
+                );
+            }
+        });
+
+
+    </script>
+</body>
+</html>

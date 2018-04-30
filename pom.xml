@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.javaee</groupId>
+  <artifactId>javaJDBC</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>war</packaging>
+
+  <name>javaJDBC Maven Webapp</name>
+  <!-- FIXME change it to the project's website -->
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <!--servlet-api jar-->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <!--json格式包装 jar-->
+    <dependency>
+      <groupId>json</groupId>
+      <artifactId>json</artifactId>
+      <version>2.4</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/json-lib-2.4-jdk15.jar</systemPath>
+    </dependency>
+    <!--mysql数据库连接 jar-->
+    <dependency>
+      <groupId>mysql-connector</groupId>
+      <artifactId>mysql-connector</artifactId>
+      <version>5.1.6</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/mysql-connector-java-5.1.6.jar</systemPath>
+    </dependency>
+
+    <dependency>
+      <groupId>servlet-api</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>1.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/servlet-api.jar</systemPath>
+    </dependency>
+
+    <!--json数据包装依赖 jar-->
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.7.0</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-beanutils-1.7.0.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections-3.2</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.2</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-collections-3.2.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient-3.0.1</groupId>
+      <artifactId>commons-httpclient-3.0.1</artifactId>
+      <version>3.0.1</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-httpclient-3.0.1.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>commons-lang-2.4</groupId>
+      <artifactId>commons-lang-2.4</artifactId>
+      <version>2.4</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-lang-2.4.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging-1.0.4</groupId>
+      <artifactId>commons-logging-1.0.4</artifactId>
+      <version>1.0.4</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/commons-logging-1.0.4.jar</systemPath>
+    </dependency>
+      <dependency>
+          <groupId>ezmorph-1.0.3.jar</groupId>
+          <artifactId>ezmorph-1.0.3</artifactId>
+          <version>1.0.3</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ezmorph-1.0.3.jar</systemPath>
+      </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>javaJDBC</finalName>
+    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+      <plugins>
+        <plugin>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+        <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_war_packaging -->
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.0.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.7.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>2.20.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>3.2.0</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>2.5.2</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>2.8.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+</project>

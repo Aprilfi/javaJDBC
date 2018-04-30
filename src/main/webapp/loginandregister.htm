@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <script src="bootstrap-3.3.7-dist/jquery_3.2.1/jquery.min.js"></script>
+
+    <style>
+        /*整体背景颜色*/
+        body{
+            background:#F7FAFC;
+        }
+        /*画布*/
+        #canvas{
+            text-align:center;
+            background:#F7FAFC;
+            overflow:auto;
+            display: inline-block;
+        }
+
+        /*尾部结构布局*/
+
+        footer{
+            position:relative;
+            top:150px;
+            left:0px;
+            height: 120px;
+            line-height: 40px;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #747474;
+            font-size: 12px;
+            letter-spacing: 1px;
+            }
+        li{
+            list-style:none;
+            float: left;
+            width:80px;
+            height:12px;
+            font-size: 10px;
+            color: darkgrey;
+        }
+        .adress1{
+            position:relative;
+            top:100px;
+            left:420px;
+        }
+        #style{
+            text-align:center;
+        }
+        .font1{
+            font:85px 楷体;
+            color:steelblue;
+            position:relative;
+            top:53px;
+        }
+        .font2{
+            font:26px 楷体;
+            position:relative;
+            top:65px;}
+        .font3{font-size:10px;
+            color: #4c4ff8;
+        }
+        .style1{
+            position:relative;
+            top:10px;
+            left:0;
+        }
+        .style2{
+            font:20px 仿宋体；
+        }
+        a{
+            text-decoration:none;
+        }
+        /*登陆注册字体设置*/
+        a:visited {
+            color:steelblue;
+            text-decoration:none;
+        }
+        /*登陆注册停留效果*/
+        a:hover {
+            color:grey;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas" style="position:absolute;  left:0px;  top:0px; z-index:-1;"></canvas>
+<script>
+    //定义画布宽高和生成点的个数
+    var WIDTH = window.innerWidth, HEIGHT = window.innerHeight, POINT = 25  ;
+
+    var canvas = document.getElementById('canvas');
+    canvas.width = WIDTH,
+            canvas.height = HEIGHT;
+    var context = canvas.getContext('2d');
+    context.strokeStyle = 'rgba(0,0,0,0.02)',
+            context.strokeWidth = 1,
+            context.fillStyle = 'rgba(0,0,0,0.05)';
+    var circleArr = [];
+
+    //线条：开始xy坐标，结束xy坐标，线条透明度
+    function Line (x, y, _x, _y, o) {
+        this.beginX = x,
+                this.beginY = y,
+                this.closeX = _x,
+                this.closeY = _y,
+                this.o = o;
+    }
+    //点：圆心xy坐标，半径，每帧移动xy的距离
+    function Circle (x, y, r, moveX, moveY) {
+        this.x = x,
+                this.y = y,
+                this.r = r,
+                this.moveX = moveX,
+                this.moveY = moveY;
+    }
+    //生成max和min之间的随机数
+    function num (max, _min) {
+        var min = arguments[1] || 0;
+        return Math.floor(Math.random()*(max-min+1)+min);
+    }
+    // 绘制原点
+    function drawCricle (cxt, x, y, r, moveX, moveY) {
+        var circle = new Circle(x, y, r, moveX, moveY)
+        cxt.beginPath()
+        cxt.arc(circle.x, circle.y, circle.r, 0, 2*Math.PI)
+        cxt.closePath()
+        cxt.fill();
+        return circle;
+    }
+    //绘制线条
+    function drawLine (cxt, x, y, _x, _y, o) {
+        var line = new Line(x, y, _x, _y, o)
+        cxt.beginPath()
+        cxt.strokeStyle = 'rgba(0,0,0,'+ o +')'
+        cxt.moveTo(line.beginX, line.beginY)
+        cxt.lineTo(line.closeX, line.closeY)
+        cxt.closePath()
+        cxt.stroke();
+    }
+    //初始化生成原点
+    function init () {
+        circleArr = [];
+        for (var i = 0; i < POINT; i++) {
+            circleArr.push(drawCricle(context, num(WIDTH), num(HEIGHT), num(15, 2), num(10, -10)/40, num(10, -10)/40));
+        }
+        draw();
+    }
+    //每帧绘制
+    function draw () {
+        context.clearRect(0,0,canvas.width, canvas.height);
+        for (var i = 0; i < POINT; i++) {
+            drawCricle(context, circleArr[i].x, circleArr[i].y, circleArr[i].r);
+        }
+        for (var i = 0; i < POINT; i++) {
+            for (var j = 0; j < POINT; j++) {
+                if (i + j < POINT) {
+                    var A = Math.abs(circleArr[i+j].x - circleArr[i].x),
+                            B = Math.abs(circleArr[i+j].y - circleArr[i].y);
+                    var lineLength = Math.sqrt(A*A + B*B);
+                    var C = 1/lineLength*7-0.009;
+                    var lineOpacity = C > 0.03 ? 0.03 : C;
+                    if (lineOpacity > 0) {
+                        drawLine(context, circleArr[i].x, circleArr[i].y, circleArr[i+j].x, circleArr[i+j].y, lineOpacity);
+                    }
+                }
+            }
+        }
+    }
+    //调用执行
+    window.onload = function () {
+        init();
+        setInterval(function () {
+            for (var i = 0; i < POINT; i++) {
+                var cir = circleArr[i];
+                cir.x += cir.moveX;
+                cir.y += cir.moveY;
+                if (cir.x > WIDTH) cir.x = 0;
+                else if (cir.x < 0) cir.x = WIDTH;
+                if (cir.y > HEIGHT) cir.y = 0;
+                else if (cir.y < 0) cir.y = HEIGHT;
+
+            }
+            draw();
+        }, 16);
+    }
+</script>
+    <div id="style">
+        <span class="font1">商品模块登录注册</span>
+        <br/>
+        <span class="font2"><a name="ab"></a></span>
+        <div class="adress1">
+            <table>
+                <tr class="style2">
+                    <td><span class="font3"><a href="#ab">（未注册？点这里）</a></span>
+                        <a href="regist.htm#ab" target="main">注册</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="login.htm" target="main">登录</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <iframe src="regist.htm" name="main" width="400px" height="500px"
+                                frameborder="0" scrolling="no"></iframe>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <footer>
+            <span>@2018</span>&nbsp;
+            <span>专栏</span>&nbsp;
+            <span>圆桌</span>&nbsp;
+            <span>发现</span>&nbsp;
+            <span>移动应用</span>&nbsp;
+            <span>使用机构账号登录</span>&nbsp;
+            <span>联系我们</span>&nbsp;
+            <span>来工作</span>
+            <br/>
+            <span>京ICP证110174号</span>&nbsp;
+            <span>京公网安背2834932490号</span>&nbsp;
+            <span>出版物经营许可证</span>&nbsp;
+            <span>侵犯投诉</span>&nbsp;
+            <span>违法和不良信息举报：217-843721983</span>
+            <hr/>
+            <span><img src="信.png" class="style1"/>诚信网站示范网站</span>
+        </footer>
+    </div>
+</body>
+</html>
